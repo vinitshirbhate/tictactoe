@@ -1,22 +1,24 @@
-const express = require("express");
-const path = require("path");
-const { createServer } = require("http");
-const { Server } = require("socket.io");
+import express from "express";
+import path from "path";
+import http, { createServer } from "http";
+import { Server } from "socket.io";
 
 const app = express();
 
+const server = http.createServer(app);
+
 const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, "frontend", "dist")));
 
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
-
+// Handle all other routes by serving the index.html file
 app.get("*", (req, res) => {
-  res.send(path.join(__dirname, "frontend", "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
 });
 
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173", // Adjust the origin accordingly
+    origin: "http://localhost:", // Adjust the origin accordingly
     methods: ["GET", "POST"],
     allowedHeaders: ["my-custom-header"],
     credentials: true,
@@ -142,6 +144,6 @@ io.on("connection", (socket) => {
 });
 
 const PORT = 3000;
-httpServer.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
