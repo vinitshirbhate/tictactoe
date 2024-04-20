@@ -18,7 +18,7 @@ app.get("*", (req, res) => {
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:", // Adjust the origin accordingly
+    origin: "https://localhost:3000", // Adjust the origin accordingly
     methods: ["GET", "POST"],
     allowedHeaders: ["my-custom-header"],
     credentials: true,

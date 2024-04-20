@@ -23,7 +23,7 @@ function App() {
   });
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3000");
+    const newSocket = io("https://tictactoe-6b3h.onrender.com");
     setSocket(newSocket);
 
     newSocket.on("gameState", (gameData) => {
